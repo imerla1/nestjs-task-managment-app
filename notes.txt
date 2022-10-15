@@ -1,0 +1,10 @@
+
+db:task-managment
+Postgres:
+postgres
+postgres
+
+
+pgadmin:
+admin@admin.com
+imerla1234
