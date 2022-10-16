@@ -8,3 +8,5 @@ postgres
 pgadmin:
 admin@admin.com
 imerla1234
+
+docker run --name postgres-nest 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres

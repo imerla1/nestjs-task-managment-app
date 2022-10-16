@@ -9,15 +9,30 @@ import { Task } from 'src/task.entity';
 
 @Injectable()
 export class TasksService {
-  constructor(
-    
-    private tasksRepository: TasksRepository,
-  ) {}
+  constructor(private tasksRepository: TasksRepository) {}
   async getTaskById(id: string): Promise<Task> {
     const found = await this.tasksRepository.findOneBy({ id: id });
     if (!found) {
       throw new NotFoundException(`Cant find Task with id ${id}`);
     }
     return found;
+  }
+
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksRepository.createTask(createTaskDto);
+  }
+
+  async deleteTask(id: string): Promise<void> {
+    const result = await this.tasksRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Cant find Task with id ${id}`);
+    }
+  }
+
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
+    const task = await this.getTaskById(id);
+    task.status = status;
+    await this.tasksRepository.save(task);
+    return task;
   }
 }
